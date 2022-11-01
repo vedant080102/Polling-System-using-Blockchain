@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=ABeeZee&family=Lobster&display=swap');
+
+/* 
+font-family: 'ABeeZee', sans-serif;
+font-family: 'Lobster', cursive;
+*/
+
+:root {
+	/* --bgcolor: #168aad; */
+	--bgcolor: #5390d9;
+	--body: white;
+}
+
+body {
+	overflow: overlay;
+
+	font-family: 'ABeeZee', sans-serif;
+	
+	line-height: 2rem;
+
+	background-color: var(--bgcolor);
+
+	color: var(--body);
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #0a09034b;
+	border-radius: 2em;
+	/* border-width: 0.01em;
+	border-color: white; */
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+	/* margin: 10px 0; */
+}
+
+.App {
+	height: 100vh;
+}
+
+.App-header {
+	width: 100vw;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    padding: 2em 1em;
+    box-shadow: 0px 4px 19px 4px #0a090313;
+}
+
+.App-header nav {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+}
+
+#brand-name {
+	color: var(--body);
+	font-family: 'Lobster', cursive;
+}
+
+
+.fixed-top {
+	transition: 0.4s;
+	position: fixed;
+	padding: 0;
+	width: 100%;
+	/* background-color: var(--navbg); */
+	background-color: white;
+	top: 0;
+	box-shadow: 0px 4px 19px 4px #0a090313;/* var(--darkPink); */
+	padding: 0.2rem 1rem;
+}
+
+nav .options {
+	font-size: 64px;
+	font-weight: lighter;
+	height: 64px;
+	cursor: pointer;
+}
+
+.light-bg {
+	background-color: white;
+	color: var(--bgcolor);
+}
+
+.blue-outline-btn {
+    color: var(--bgcolor);
+    border-color: var(--bgcolor);
+}
+
+.blue-outline-btn:hover {
+	color: white;
+	background-color: var(--bgcolor);
+}
+
+.form-control:focus {
+	color: var(--bgcolor);
+}
+
+@media (max-width: 756px) {
+	.main-content {
+		margin: 0 1.2em;
+		text-align: justify;
+	}
+}
+
+footer {
+	color: var(--darkPink);
+	font-family: 'Kalam', cursive;
+}
+
+footer li,
+footer li a {
+	list-style: none;
+	text-decoration: none;
+}
+
+footer #social-accounts a{
+	color: #ffb3c1;
+	
+	/* display: flex;
+	justify-content: center;
+	align-items: center; */
+
+	margin: 0 0.5em;
+	padding: 0 0.35em;
+	text-decoration: none;
+	font-size: 1.5em;
+	border-radius: .25rem;
+	/* background-color: var(--lightPink); */
+	transition: 0.4s;
+}
+
+#social-accounts a:hover {
+	color: #ff4d6d;
+}
+ 
+/* #social-accounts #twitter {
+	color: #1da1f2;
+}
+#social-accounts #insta {
+	color: #c32aa3;
+}
+#social-accounts #fb {
+	color: #1877f2;
+} */
+
+.flex {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
