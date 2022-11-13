@@ -1,10 +1,19 @@
 const assert = require("assert")
 const ganache = require("ganache-cli")
-const { describe } = require("mocha")
-const { it } = require("mocha")
+const { describe, it } = require("mocha")
 const Web3 = require("web3")
+const HDWalletProvider = require("truffle-hdwallet-provider")
+const fs = require('fs');
 
-const web3 = new Web3(ganache.provider())
+
+const provider = new HDWalletProvider(
+    "drift struggle pear cattle bonus labor equip debate admit syrup they liberty",
+    "http://127.0.0.1:7545"
+)
+
+// const web3 = new Web3(ganache.provider());
+const web3 = new Web3(provider);
+
 const {
     // bytecode,
     interface,
@@ -20,6 +29,8 @@ beforeEach(async () => {
     //get a list of all acounts
     //use one of those accounts to deploy  the contacts
     accounts = await web3.eth.getAccounts();
+    console.log("All accounts:", accounts);
+
     factory = await new web3.eth.Contract(interface1)
         .deploy({
             data: bytecode1,
@@ -34,23 +45,39 @@ beforeEach(async () => {
 
 })
 
+
+// write to a new file named 2pac.txt
+fs.writeFile('D:/VEDANT/PROJECTS/college/BCT-MP/frontend/src/abi/poll_abi.json', JSON.stringify(interface), (err) => {
+    // throws an error, you could also catch it here
+    if (err) throw err;
+});
+
+fs.writeFile('D:/VEDANT/PROJECTS/college/BCT-MP/frontend/src/abi/factory_abi.json', JSON.stringify(interface1), (err) => {
+    // throws an error, you could also catch it here
+    if (err) throw err;
+});
+
 describe("Inbox", () => {
 
     // this.timeout(0);
 
     it("deploys a contract", () => {
         assert.ok(factory.options.address)
+        console.log("contract factory add:", factory.options.address);
     });
 
     it("Create unique polls", async () => {
-        await factory.methods.createPoll(['a','b','c']).send({from: accounts[1], gas:"3000000"});
+        await factory.methods.createPoll(['a','b','c'], "hero poll").send({from: accounts[1], gas:"3000000"});
     });
 
     it("Get individual poll data", async () => {
-        createNewPoll(accounts[1], 1);
-        createNewPoll(accounts[2], 2);
-        createNewPoll(accounts[3], 3);
-        createNewPoll(accounts[4], 4);
+        await createNewPoll(accounts[1], 1);
+        await createNewPoll(accounts[2], 2);
+        await createNewPoll(accounts[3], 3);
+        await createNewPoll(accounts[4], 4);
+
+        const allPOlls = await factory.methods.getAllPolls().call();
+        console.log("ALl polls: ", allPOlls);
 
 /*         await factory.methods.createPoll(['a','b','c']).send({from: accounts[1], gas:"3000000"});
 
@@ -84,6 +111,7 @@ describe("Inbox", () => {
     });
 
 
+
     // it("has a default msg",async()=>{
     //     const message = await inbox.methods.message().call() 
     //     assert.equal(message,initStr)
@@ -99,12 +127,12 @@ describe("Inbox", () => {
 })
 
 const createNewPoll = async (creatorAccount, ind) => {
-    await factory.methods.createPoll(['a','b','c']).send({from: creatorAccount, gas:"3000000"});
+    await factory.methods.createPoll(['a','b','c'], "hero2poll").send({from: creatorAccount, gas:"3000000"});
 
-    const contAdd = await factory.methods.getDeployedPolls().call({from: creatorAccount});
+    const contAdd = await factory.methods.getMyDeployedPolls().call({from: creatorAccount});
     console.log("Address: ", contAdd);
 
-    var cont = new web3.eth.Contract(interface, contAdd);
+    var cont = new web3.eth.Contract(interface, contAdd[1]);
 
     let votes = ['a','b','c']
 
@@ -127,30 +155,3 @@ const createNewPoll = async (creatorAccount, ind) => {
     console.log("Result:", res);
     console.log("Voters:", res1);
 }
-
-
-// class Car{
-//     park(){
-//         return "stopped"
-//     }
-//     drive(){
-//         return "vroom"
-//     }
-// }
-
-// let car
-// beforeEach(()=>{
-//     car = new Car();
-// })
-
-// describe("Car",()=>{
-
-//     it("can park",()=>{
-
-//         assert.equal(car.park(),"stopped")
-//     })
-//     it("can drive",()=>{
-
-//         assert.equal(car.drive(),"vroom")
-//     })
-// })

@@ -9,22 +9,29 @@ contract PollFactory{
 
     PollData[] public deployedPolls;
     
-    mapping(address => address) public allPolls;
+    mapping(address => PollData) public allPolls;
 
-    function createPoll(string[] memory ttt, string memory name) public{
+    function createPoll(string[] memory options, string memory name, string memory question) public{
         
-        
-        deployedPolls.push(PollData({
+        PollData memory newPoll = PollData({
             name: name,
-            pollAddress: address(new Poll(ttt, msg.sender))
-        }));
+            pollAddress: address(new Poll(question, options, msg.sender))
+        });
+
+        deployedPolls.push(newPoll);
                 
         allPolls[msg.sender] = newPoll;
     }
 
-    function getDeployedPolls() public view returns(address){
+    function getMyDeployedPolls() public view returns(PollData memory){
         return allPolls[msg.sender];
     }
+
+    function getAllPolls() public view returns (PollData[] memory) {
+        return deployedPolls;
+    }
+
+    // function getBy
 }
 
 
@@ -32,17 +39,35 @@ contract Poll{
     address private manager;
     address[] public voters;
     string[] public candidateList;
+
+    string question;
+
+    struct PollData {
+        string question;
+        string[] options;
+    }
+
+    // PollData obj;
+
     
     mapping(string => int) public candidate;
 
-    constructor (string[] memory ttt, address sender) public {
+    constructor (string memory quest, string[] memory options, address sender) public {
         manager = sender;
 
-        candidateList = ttt;
-        for (uint i = 0; i < ttt.length; i++) {
-            candidate[ttt[i]] = 0;
+        candidateList = options;
+        for (uint i = 0; i < options.length; i++) {
+            candidate[options[i]] = 0;
             // candidateList.push(ttt[i]);
         }
+        question = quest;
+    }
+
+    function getQuestion() public view returns (PollData memory) {
+        return PollData({
+            question: question,
+            options: candidateList
+        });
     }
 
     function getVoters () public view returns ( address[] memory){
@@ -64,6 +89,10 @@ contract Poll{
             }
         }
         return true;
+    }
+
+    function checkIfManager() public view returns (bool) {
+        return (msg.sender == manager);
     }
 
     function pickWinner() public view returns(string memory) {

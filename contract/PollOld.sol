@@ -9,21 +9,20 @@ contract PollFactory{
 
     PollData[] public deployedPolls;
     
-    mapping(address => PollData) public allPolls;
+    mapping(address => address) public allPolls;
 
-    function createPoll(string[] memory options, string memory name) public{
+    function createPoll(string[] memory ttt, string memory name) public{
         
-        PollData memory newPoll = PollData({
+        
+        deployedPolls.push(PollData({
             name: name,
-            pollAddress: address(new Poll(options, msg.sender))
-        });
-
-        deployedPolls.push(newPoll);
+            pollAddress: address(new Poll(ttt, msg.sender))
+        }));
                 
-        allPolls[msg.sender] = newPoll;
+        allPolls[msg.sender] = new Poll();
     }
 
-    function getDeployedPolls() public view returns(PollData memory){
+    function getDeployedPolls() public view returns(address){
         return allPolls[msg.sender];
     }
 }
@@ -36,12 +35,12 @@ contract Poll{
     
     mapping(string => int) public candidate;
 
-    constructor (string[] memory options, address sender) public {
+    constructor (string[] memory ttt, address sender) public {
         manager = sender;
 
-        candidateList = options;
-        for (uint i = 0; i < options.length; i++) {
-            candidate[options[i]] = 0;
+        candidateList = ttt;
+        for (uint i = 0; i < ttt.length; i++) {
+            candidate[ttt[i]] = 0;
             // candidateList.push(ttt[i]);
         }
     }
