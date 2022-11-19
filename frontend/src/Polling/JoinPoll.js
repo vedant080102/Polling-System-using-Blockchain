@@ -34,17 +34,10 @@ export default function JoinPoll() {
                 <h2 className="mb-5">Join a Poll</h2>
                 <div className="rounded-3 shadow light-bg p-4">
                     <div className="row">
-                        {/* <div className="col-12 flex"> */}
                         <div className="mb-3">
                             <label htmlFor="exampleFormControlInput1" className="form-label">Enter the Name of the Poll</label>
                             <input type="email" className="form-control" id="exampleFormControlInput1" placeholder="Poll Tool's poll" onChange={(e)=> setPollName(e.target.value)}/>
-                            {/* </div> */}
                         </div>
-                        {/* <div className="col-12 flex"> */}
-                        {/* <div className="mb-3">
-                            <label htmlFor="exampleFormControlInput1" className="form-label">Duration of the Poll</label>
-                            <input type={"datetime-local"} className="form-control" id="exampleFormControlInput1" placeholder="name@example.com"/>
-                        </div> */}
                         <div className="col-12 flex mt-3">
                             <button className="btn blue-outline-btn" onClick={join}>Join Now</button>
                         </div>

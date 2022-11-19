@@ -23,7 +23,6 @@ const {
 
 let accounts;
 let factory;
-// const initStr = "Hi there!"
 
 beforeEach(async () => {
     //get a list of all acounts

@@ -13,6 +13,7 @@ export default function VotePoll() {
     const [voters, setvoters] = useState([]);
     const [result, setresult] = useState([]);
     const [isAdmin, setisAdmin] = useState(false);
+    const [isValid, setisValid] = useState(true);
 
     const history = useHistory();
 
@@ -34,7 +35,6 @@ export default function VotePoll() {
             setvoters(data);
         }).catch((e) => console.log(e));
 
-        // const winner = 
         await contract.methods.getResult().call({from: userId}).then((data) => {
             console.log("Winner: ", data);
             let res = []
@@ -55,16 +55,21 @@ export default function VotePoll() {
 
         window.ethereum.request({method:'eth_requestAccounts'})
         .then((res)=>{
-                // Return the address of the wallet
                 setuserId(res[0]);
                 console.log("userId:", res[0]);
-                // console.log(res);
 
                 let check = async () => await contract.methods.checkIfManager().call({from: res[0]}).then((data) => {
                     console.log("res__:", data);
                     setisAdmin(data);
                 });
                 check();
+
+                let checkValid = async () => await contract.methods.getDeadline().call().then((data)=> {
+                    console.log("is Valid?", data);
+                    setisValid(new Date(data) >= new Date());
+                    // setisValid(data);  
+                });
+                checkValid();
         })
     }
 
@@ -84,12 +89,7 @@ export default function VotePoll() {
                 <h2 className="mb-5">Poll</h2>
                 <div className="rounded-3 shadow light-bg p-4">
                     <h3 className='text-center'>{quest}</h3>
-                    {!isAdmin ? <>
-                        <span className="text-muted">Select one option to submit</span>
-                        <div className="row my-4">
-                            {options.map((data, i) => inputCompo(data, i))}
-                        </div>
-                    </> : <>
+                    {isAdmin ? <>
                         {/* <h4 className='my-3'>Result: {result}</h4> */}
                         <table className="table table-hover">
                             <thead>
@@ -117,6 +117,13 @@ export default function VotePoll() {
                                 )}
                                 </tbody>
                         </table>
+                    </> : isValid ? <>
+                        <span className="text-muted">Select one option to submit</span>
+                        <div className="row my-4">
+                            {options.map((data, i) => inputCompo(data, i))}
+                        </div>
+                    </> : <>
+                        <span className="text-muted">The Poll has expired!</span>
                     </>}
                 </div>
             </div>

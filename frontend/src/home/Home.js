@@ -10,7 +10,6 @@ export default function Home() {
             <div className="flex flex-column">
                 <h2 className="mb-5">Welcome</h2>
                 <div className="rounded-3 shadow light-bg p-4">
-                    {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut facilis eius et quas. Autem repudiandae rem fugit mollitia est error! */}
                     <div className="row">
                         <div className="col-12 col-md-6 flex">
                             <button className="btn blue-outline-btn" onClick={()=> history.push("/join-poll")}>

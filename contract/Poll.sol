@@ -11,11 +11,11 @@ contract PollFactory{
     
     mapping(address => PollData) public allPolls;
 
-    function createPoll(string[] memory options, string memory name, string memory question) public{
+    function createPoll(string[] memory options, string memory name, string memory question, string memory deadline) public{
         
         PollData memory newPoll = PollData({
             name: name,
-            pollAddress: address(new Poll(question, options, msg.sender))
+            pollAddress: address(new Poll(question, options, msg.sender, deadline))
         });
 
         deployedPolls.push(newPoll);
@@ -39,6 +39,7 @@ contract Poll{
     address private manager;
     address[] public voters;
     string[] public candidateList;
+    string public deadline;
     // int[] votes;
 
     string question;
@@ -47,14 +48,13 @@ contract Poll{
         string question;
         string[] options;
     }
-
-    // PollData obj;
-
     
     mapping(string => int) public candidate;
 
-    constructor (string memory quest, string[] memory options, address sender) public {
+    constructor (string memory quest, string[] memory options, address sender, string memory time) public {
         manager = sender;
+
+        deadline = time;
 
         candidateList = options;
         for (uint i = 0; i < options.length; i++) {
@@ -69,6 +69,10 @@ contract Poll{
             question: question,
             options: candidateList
         });
+    }
+
+    function getDeadline() public view returns (string memory) {
+        return deadline;
     }
 
     function getVoters() public view returns ( address[] memory){
