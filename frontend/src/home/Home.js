@@ -1,5 +1,5 @@
 import { useHistory } from "react-router-dom";
-import Footer from "../base/Footer";
+// import Footer from "../base/Footer";
 
 export default function Home() {
 
@@ -14,12 +14,12 @@ export default function Home() {
                     <div className="row">
                         <div className="col-12 col-md-6 flex">
                             <button className="btn blue-outline-btn" onClick={()=> history.push("/join-poll")}>
-                                <i class="fas fa-poll me-2"></i>Join Existing Poll
+                                <i className="fas fa-poll me-2"></i>Join Existing Poll
                             </button>
                         </div>
                         <div className="col-12 col-md-6 flex">
                             <button className="btn blue-outline-btn" onClick={()=> history.push("/new-poll")}>
-                                <i class="fas fa-plus me-2"></i>Create a New Poll
+                                <i className="fas fa-plus me-2"></i>Create a New Poll
                             </button>
                         </div>
                     </div>

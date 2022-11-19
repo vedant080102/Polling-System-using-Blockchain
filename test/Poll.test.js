@@ -4,11 +4,11 @@ const { describe, it } = require("mocha")
 const Web3 = require("web3")
 const HDWalletProvider = require("truffle-hdwallet-provider")
 const fs = require('fs');
-
+require('dotenv').config()
 
 const provider = new HDWalletProvider(
-    "drift struggle pear cattle bonus labor equip debate admit syrup they liberty",
-    "http://127.0.0.1:7545"
+    process.env.nmeumo,
+    process.env.address
 )
 
 // const web3 = new Web3(ganache.provider());
@@ -23,7 +23,7 @@ const {
 
 let accounts;
 let factory;
-const initStr = "Hi there!"
+// const initStr = "Hi there!"
 
 beforeEach(async () => {
     //get a list of all acounts
@@ -66,9 +66,9 @@ describe("Inbox", () => {
         console.log("contract factory add:", factory.options.address);
     });
 
-    it("Create unique polls", async () => {
-        await factory.methods.createPoll(['a','b','c'], "hero poll").send({from: accounts[1], gas:"3000000"});
-    });
+    // it("Create unique polls", async () => {
+    //     await factory.methods.createPoll(['a','b','c'], "hero poll").send({from: accounts[1], gas:"3000000"});
+    // });
 
     it("Get individual poll data", async () => {
         await createNewPoll(accounts[1], 1);
@@ -127,7 +127,7 @@ describe("Inbox", () => {
 })
 
 const createNewPoll = async (creatorAccount, ind) => {
-    await factory.methods.createPoll(['a','b','c'], "hero2poll").send({from: creatorAccount, gas:"3000000"});
+    await factory.methods.createPoll(['a','b','c'], `hero2poll${ind}`, `quest${ind}`).send({from: creatorAccount, gas:"3000000"});
 
     const contAdd = await factory.methods.getMyDeployedPolls().call({from: creatorAccount});
     console.log("Address: ", contAdd);
@@ -141,6 +141,7 @@ const createNewPoll = async (creatorAccount, ind) => {
         await cont.methods.enter(votes[Math.floor(3 * Math.random())]).send({
             from: accounts[i]
         });
+        await cont.methods.checkIfManager().call().then((data) => {console.log("I:", i, " isManager: ", data)});
     }
     
     const res = await cont.methods.pickWinner().call({

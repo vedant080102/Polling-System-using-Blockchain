@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom"
 import factory from "../abi/factory"
-import web3 from "./../web3";
 
 export default function JoinPoll() {
 
     const history = useHistory();
 
     const [pollName, setPollName] = useState("");
-    const [pollAddress, setPollAddress] = useState("");
+    // const [pollAddress, setPollAddress] = useState("");
 
     const join = async () => {
         const allPolls = await factory.methods.getAllPolls().call();
@@ -16,8 +15,8 @@ export default function JoinPoll() {
         console.log("All Polls: ", allPolls);
 
         for (let i = 0; i < allPolls.length; i++) {
-            if (pollName == allPolls[i][0]) {
-                setPollAddress(allPolls[i][1]);
+            if (pollName === allPolls[i][0]) {
+                // setPollAddress(allPolls[i][1]);
                 found = true;
                 pollAdd = allPolls[i][1];
                 // console.log(pollAddress);
@@ -27,7 +26,6 @@ export default function JoinPoll() {
         if (!found) {
             alert("Invalid Poll ❌, Please try again!");
         }
-
     }
 
     return <>
@@ -37,15 +35,15 @@ export default function JoinPoll() {
                 <div className="rounded-3 shadow light-bg p-4">
                     <div className="row">
                         {/* <div className="col-12 flex"> */}
-                        <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Enter the Name of the Poll</label>
-                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Poll Tool's poll" onChange={(e)=> setPollName(e.target.value)}/>
+                        <div className="mb-3">
+                            <label htmlFor="exampleFormControlInput1" className="form-label">Enter the Name of the Poll</label>
+                            <input type="email" className="form-control" id="exampleFormControlInput1" placeholder="Poll Tool's poll" onChange={(e)=> setPollName(e.target.value)}/>
                             {/* </div> */}
                         </div>
                         {/* <div className="col-12 flex"> */}
-                        {/* <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Duration of the Poll</label>
-                            <input type={"datetime-local"} class="form-control" id="exampleFormControlInput1" placeholder="name@example.com"/>
+                        {/* <div className="mb-3">
+                            <label htmlFor="exampleFormControlInput1" className="form-label">Duration of the Poll</label>
+                            <input type={"datetime-local"} className="form-control" id="exampleFormControlInput1" placeholder="name@example.com"/>
                         </div> */}
                         <div className="col-12 flex mt-3">
                             <button className="btn blue-outline-btn" onClick={join}>Join Now</button>

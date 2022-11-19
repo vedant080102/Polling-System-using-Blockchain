@@ -39,6 +39,7 @@ contract Poll{
     address private manager;
     address[] public voters;
     string[] public candidateList;
+    // int[] votes;
 
     string question;
 
@@ -70,7 +71,7 @@ contract Poll{
         });
     }
 
-    function getVoters () public view returns ( address[] memory){
+    function getVoters() public view returns ( address[] memory){
         return  voters;
     }
 
@@ -95,11 +96,26 @@ contract Poll{
         return (msg.sender == manager);
     }
 
-    function pickWinner() public view returns(string memory) {
+    function getResult() public view returns (int[] memory) {
+        require(msg.sender == manager);
+
+        int[] memory votes = new int[](candidateList.length);
+
+        for (uint i = 0; i < candidateList.length; i++) {
+            votes[i] = candidate[candidateList[i]];
+        }
+
+        return votes;
+    }
+
+    function pickWinner() public view returns (string memory) {
         require(msg.sender == manager);
 
         int max = -1;
         uint winnerInd;
+        // uint locWinner;
+        // string[] memory temp = candidateList;
+        // string[] memory rank;
 
         for (uint i = 0; i < candidateList.length; i++) {
             if (candidate[candidateList[i]] > max) {
@@ -107,6 +123,23 @@ contract Poll{
                 winnerInd = i;
             }
         }
+
+        // max = -1;
+        // for (uint i = 0; i < candidateList.length; i++) {
+        //     for (uint j = 0; j < temp.length; j++) {
+        //         if (candidate[candidateList[j]] > max) {
+        //             max = candidate[candidateList[i]];
+        //             locWinner = j;
+        //         }
+        //     }
+        // }
+
         return candidateList[winnerInd];
     }
+
+    // function _burn(uint index, string[] storage array) internal {
+    //     require(index < array.length);
+    //     array[index] = array[array.length-1];
+    //     array.pop();
+    // }
 }

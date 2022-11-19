@@ -8,9 +8,6 @@ import Home from './home/Home';
 import NewPoll from './Polling/NewPoll';
 import JoinPoll from './Polling/JoinPoll';
 import VotePoll from './Polling/VotePoll';
-import Result from './Polling/Result';
-// import Footer from './base/Footer';
-// import Tester from './tester/Tester';
 
 function App() {
 	return (
@@ -23,8 +20,6 @@ function App() {
 						<Route path="/new-poll" exact component={() => <NewPoll />} />
 						<Route path="/join-poll" exact component={() => <JoinPoll />} />
 						<Route path="/vote/:id" exact component={() => <VotePoll />} />
-						<Route path="/results" exact component={() => <Result />} />
-						{/* <Route path="/tester" exact component={() => <Tester />} /> */}
 					</Switch>
 				</main>
 
